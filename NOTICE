@@ -1,0 +1,66 @@
+FanMac
+Copyright (C) 2026 Ardhitama
+https://github.com/ardhitama/fanmac
+
+FanMac is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+FanMac is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License, in the file LICENSE,
+for more details.
+
+Whoever conveys FanMac, changed or not, must offer its complete source code
+under the same license. The source of each release is tagged in the
+repository above.
+
+
+Additional term: the FanMac name and icon
+-----------------------------------------
+
+As sections 7(c) and 7(e) of the GNU General Public License version 3
+allow, this license grants no rights under trademark law to the name
+"FanMac" or to the FanMac icon, and modified versions must be marked as
+different from the original. Ardhitama keeps the rights to the name and
+icon. In short:
+
+- You may use the name to refer to FanMac truthfully, for example to say
+  that your work is based on FanMac or works with it.
+- You may give away unmodified copies of an official FanMac release under
+  its name and icon.
+- A modified version must use a different name, a different icon and a
+  different bundle identifier, and must not suggest that Ardhitama made or
+  endorses it.
+- Without written permission, you may not use the name or the icon to sell,
+  advertise or promote any product or service, and that includes paid
+  copies of FanMac.
+
+These points concern the name and icon only. The rest of the GNU General
+Public License is unaffected: anyone may copy, change and convey the code
+under its terms, and charge for copies, under a name and icon of their own.
+
+
+Third-party code
+----------------
+
+tools/smc-helper/smc.c and tools/smc-helper/smc.h, built into FanMac's fan
+helper, derive from smc-command in smcFanControl
+(https://github.com/hholtmann/smcFanControl):
+
+  Copyright (C) 2006 devnull
+  Portions Copyright (C) 2013 Michael Wilber
+  Portions Copyright (C) 2026 Ardhitama
+
+They are licensed under the GNU General Public License, version 2 or (at your
+option) any later version, and are used in FanMac under version 3.
+
+
+Text and data mining
+--------------------
+
+Ardhitama reserves the rights of text and data mining in FanMac's code and
+documentation, including their use to train or fine-tune AI models, as
+Article 4(3) of Directive (EU) 2019/790 allows. This reservation is separate
+from the GNU General Public License.

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FanMac - Native macOS fan control utility">
+    <!-- W3C TDMRep: text and data mining rights, AI training included, are reserved. -->
+    <meta name="tdm-reservation" content="1">
+    <title>FanMac - Master your Thermals</title>
+    <style>
+        :root {
+            --bg: #FAFAFA;
+            --surface: #FFFFFF;
+            --surface-hover: #F2F2F7;
+            --text: #1D1D1F;
+            --text-secondary: #86868B;
+            --accent: #0071E3;
+            --accent-hover: #0077ED;
+            --border: #E5E5EA;
+            --radius-l: 24px;
+            --radius-m: 16px;
+            --radius-s: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --font-stack: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #000000;
+                --surface: #1C1C1E;
+                --surface-hover: #2C2C2E;
+                --text: #F5F5F7;
+                --text-secondary: #86868B;
+                --accent: #2997FF;
+                --accent-hover: #0071E3;
+                --border: #38383A;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { border: none; background: none; font-family: inherit; cursor: pointer; }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* The logo is the app icon as macOS draws it: its own shape, margin
+           and shadow, so the page adds neither. */
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+        }
+
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 100px;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, var(--text) 0%, rgba(var(--text), 0.8) 100%);
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn {
+            height: 48px;
+            padding: 0 32px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--surface-hover);
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, minmax(280px, auto));
+            gap: 24px;
+            margin-bottom: 120px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-l);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover { transform: translateY(-4px); }
+
+        .card-icon {
+            font-size: 32px;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Grid Spans */
+        .span-2 { grid-column: span 2; }
+        .span-row-2 { grid-row: span 2; }
+
+        @media (max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .span-2, .span-row-2 { grid-column: auto; grid-row: auto; }
+            h1 { font-size: 48px; }
+        }
+
+        /* Installation */
+        .install-section {
+            border-radius: var(--radius-l);
+            padding: 60px;
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .terminal {
+            background: #1C1C1E;
+            border-radius: var(--radius-m);
+            padding: 24px;
+            text-align: left;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 13px;
+            color: #fff;
+            margin-top: 32px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .red { background: #FF5F56; }
+        .yellow { background: #FFBD2E; }
+        .green { background: #27C93F; }
+
+        .cmd { color: #fff; line-height: 1.8; }
+        .cmd::before { content: "$"; color: #6E6E73; margin-right: 12px; }
+        .comment { color: #6E6E73; display: block; margin-top: 12px; margin-bottom: 4px; }
+
+        .copy-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 4px 12px;
+            color: #fff;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 60px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <div class="brand">
+                <img src="assets/logo.png" alt="FanMac" class="brand-logo"> FanMac
+            </div>
+            <div class="nav-links">
+                <a href="https://github.com/ardhitama/fanmac#readme">Documentation</a>
+                <a href="https://github.com/ardhitama/fanmac">GitHub</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <img src="assets/logo.png" alt="FanMac" class="hero-logo">
+            <h1>Master your Mac's<br>thermals.</h1>
+            <p>A native menu bar app to monitor temperatures and control fan speeds in real-time. Works on Apple Silicon & Intel Macs.</p>
+            <div class="button-group">
+                <a href="https://github.com/ardhitama/homebrew-tap/releases/latest" class="btn btn-primary">Download v1.0.0</a>
+                <a href="https://github.com/ardhitama/fanmac" class="btn btn-secondary">Source code on GitHub</a>
+            </div>
+        </section>
+
+        <section class="whatsnew">
+            <h2>FanMac 1.0</h2>
+            <ul>
+                <li><strong>Auto or Manual</strong> — Fans follow the hotter of the CPU and GPU on a curve you shape, or hold the speed you choose.</li>
+                <li><strong>Terminal command</strong> — <code>fanmac</code> shows a live view and reads or changes the fans from scripts.</li>
+                <li><strong>Fans always go back to macOS</strong> — When the Mac sleeps, when FanMac quits, and even if it crashes or is force quit.</li>
+                <li><strong>Requirements</strong> — macOS <strong>26.1+</strong>, Apple Silicon and Intel.</li>
+            </ul>
+        </section>
+
+        <section class="install-section">
+            <h2>Install with Homebrew</h2>
+            <p style="color: var(--text-secondary); margin-top: 16px;">Installs the app and the <code>fanmac</code> command.</p>
+            
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <button class="copy-btn" onclick="copyCmd()">Copy</button>
+                <code>
+                    <span class="comment"># Trust and add the tap, then install FanMac</span>
+                    <div class="cmd">brew trust --tap ardhitama/tap</div>
+                    <div class="cmd">brew tap ardhitama/tap</div>
+                    <div class="cmd">brew install --cask fanmac</div>
+                </code>
+            </div>
+        </section>
+
+        <section class="bento-grid">
+            <div class="card span-2">
+                <div class="card-icon">🌡️</div>
+                <h3>Real-Time Monitoring</h3>
+                <p>Live CPU and GPU temperatures straight from the SMC: the hottest plausible sensor, steady while the GPU idles.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💨</div>
+                <h3>Smart Fan Control</h3>
+                <p>Manual or automatic modes. Set fixed speeds or let temps dictate RPM with custom curves.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡️</div>
+                <h3>Native & Fast</h3>
+                <p>Pure SwiftUI. Under 1% of one CPU core. Lives in your menu bar, stays out of your way.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>No analytics. No telemetry. No internet required. Your data never leaves your Mac.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🚀</div>
+                <h3>One-Click Setup</h3>
+                <p>Install with Homebrew or drag to Applications, then click "Install Helper" – done.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div>© 2026 Ardhitama • GPL-3.0-or-later • Free & Open Source</div>
+        </footer>
+    </div>
+
+    <script>
+        function copyCmd() {
+            const cmd = `brew trust --tap ardhitama/tap\nbrew tap ardhitama/tap\nbrew install --cask fanmac`;
+            navigator.clipboard.writeText(cmd);
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2000);
+        }
+    </script>
+</body>
+</html>

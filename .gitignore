@@ -1,0 +1,6 @@
+/build/
+xcuserdata/
+tools/.build/
+tools/smc-helper/smc-helper
+.DS_Store
+__pycache__/
